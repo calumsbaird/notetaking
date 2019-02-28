@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# File
+F="$1"
+OUT="${F%.md}.pdf"
+
+# Open pdf
+pandoc -f markdown -t latex -o $OUT $F
+xdg-open $OUT & disown
+
+fileTime=`stat -c %X $F`
+
+# While file is open
+while :
+do
+    # Get latest write time
+    newTime=`stat -c %X $F`
+
+    # Compare write time to last write time
+    if [[ "$fileTime" -ne "$newTime" ]]
+    then
+        fileTime=$newTime
+        
+        # If modified regen pdf
+        pandoc --indented-code-classes=python -f markdown -t latex -o $OUT $F
+
+    fi
+
+    # Check file isnt closed
+    if ! [[ `lsof +D ./ | grep tute1.md` ]]
+    then
+        break
+    fi
+
+    sleep 1 
+done    
