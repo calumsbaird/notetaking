@@ -5,8 +5,11 @@ F="$1"
 OUT="${F%.md}.pdf"
 
 # Open pdf
-pandoc -f markdown -t latex -o $OUT $F
-xdg-open $OUT & disown
+
+#pandoc -f markdown -t latex -o $OUT $F
+pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
+#xdg-open $OUT & disown
+mupdf $OUT & disown
 
 fileTime=`stat -c %X $F`
 
@@ -22,12 +25,14 @@ do
         fileTime=$newTime
         
         # If modified regen pdf
-        pandoc --indented-code-classes=python -f markdown -t latex -o $OUT $F
-
+        pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
+        
+        # Update pdf
+        pkill -SIGHUP mupdf
     fi
 
     # Check file isnt closed
-    if ! [[ `lsof +D ./ | grep tute1.md` ]]
+    if ! [[ `lsof +D ./ | grep $F` ]]
     then
         break
     fi
