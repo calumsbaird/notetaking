@@ -1,0 +1,58 @@
+\documentclass[12pt]{article}  
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{amssymb}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\section}
+    {\bfseries\Large\center}{}{0em}{#1}
+\titleformat{\subsection}
+    {\bfseries\Large}{}{0em}{#1}
+\titleformat{\subsubsection}
+    {\bfseries\normalsize}{}{0em}{#1}
+
+
+\setlength\parindent{0pt}
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=3cm,bmargin=3cm,lmargin=3cm,rmargin=3cm}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{lheader}
+\rhead{\today}
+%\lfoot{Page \thepage}
+\rfoot{\thepage\ of \pageref{LastPage}}
+
+
+\begin{document}
+
+%$if(title)$
+\maketitle
+%$endif$
+
+%$if(toc)$
+\tableofcontents
+
+%$endif$
+
+
+$if(alignment)$
+\begin{$alignment$}
+$endif$
+
+$body$
+
+$if(alignment)$
+\end{$alignment$}
+$endif$
+
+\end{document}

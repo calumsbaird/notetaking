@@ -1,0 +1,210 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{breqn}
+% \usepackage{polynom}
+% \usepackage{mathtools}
+
+\graphicspath{images/}
+\title{MATH2069 Assignment}
+\author{Calum Baird}
+\begin{document}
+\maketitle{Notes}
+
+\section{Question 1}
+\subsection{Part a)}
+Solve the recurrence relation
+\[ a_n = a_{n-1} + 8 a_{n-2} - 12 a_{n-3} + 25(-3)^{n-2} + 32n^2 - 64n, \text{  } n \geq 3 \]
+where $a_0 = 130$, $a_1 = 215$ and $a_2 = 260$
+\\
+\\
+The solution to $a_n$ will be the sum of the solution to the homogenous component $a_{n-1} + 8a_{n-2} - 12 a_{n-3}$ and the particular solution
+ $p_n + q_n$ where $p_n$ and $q_n$ are the solutions of $f(n) = 25(-3)^{n-2}$ and $g(n) = 32n^2 - 64n$ respectively.
+\\
+\subsubsection*{Homogenous component}
+$b(n) = b_{n-1} + 8b_{n-2} - 12 b_{n-3}$ has the characteristic polynomial:
+\[ h(x) = x^3 - x^2 - 8x + 12 \]
+We can see that $h(2) = 2^3 - 2^2 - 8\times2 + 12 = 0$ so $(x-2)$ is a factor of the cubic.
+% \polylongdiv{X^3+X^2-1}{X-1}
+Subsequently $h(n)$ factorises to $(x-2)(x^2+x-6) = (x-2)(x-2)(x+3)$.  So we have roots $2$, of multiplicity 2, and $-3$.
+\\
+Thus the general solution for $b(n)$:
+\[ b(n) = A(2)^n + Bn(2)^n + C(-3)^n \]
+Where A, B and C are arbitrary constants.
+
+\subsubsection*{First non-homogenous component}
+$f(n) = 25(-3)^{n-2}$ can be re-written as $\frac{25}{(-3)^2}(-3)^n$, which is now of the form $p_n = Q(n)n^l\mu^n$ where $Q(n) = \frac{25}{(-3)^2}$, $\mu = -3$
+and $l=1$ as $-3$ is a root of multiplicity 1.
+Thus $p_n$ will have the general form:
+\[ p_n =  Dn(-3)^n \text{ for some constant } D\]
+
+Now to find constant D, we substitute $p_n$ into the non-homogenous component $a_n = a_{n-1} + 8 a_{n-2} - 12 a_{n-3} + \frac{25}{(-3)^2}(-3)^n$
+
+\[ Dn(-3)^n = D(n-1)(-3)^{n-1} + 8D(n-2)(-3)^{n-2} - 12D(n-3)(-3)^{n-3} + \frac{25(-3)^n}{(-3)^2} \]
+% \begin{multline*}
+%   An(-3)^n = \frac{An(-3)^n}{-3} - \frac{A(-3)^n}{-3} + \frac{8An(-3)^n}{(-3)^2}- \frac{2\times8A(-3)^n}{(-3)^2} - \frac{12An(-3)^n}{(-3)^3} - \\
+%   \frac{12\times-3(-3)^n}{(-3)^3} + \frac{25(-3)^n}{(-3)^2} + 32n^2 - 64n
+% \end{multline*}
+
+% \[ An(-3)^n = \frac{An(-3)^n}{-3} - \frac{A(-3)^n}{-3} + \frac{8An(-3)^n}{(-3)^2}- \frac{2\times8A(-3)^n}{(-3)^2} - \frac{12An(-3)^n}{(-3)^3} - \frac{12\times-3(-3)^n}{(-3)^3} + \frac{25(-3)^n}{(-3)^2} + 32n^2 - 64n \]
+
+Then by dividing by $\frac{(-3)^n}{27}$ we get
+\[ 27Dn = -9 D(n-1) + 24 D(n-2) + 12 D(n-3) + 75 \]
+Comparing constant terms
+\[ 0 = 9D + 24\times -2 D + 12 \times -3 D + 75 \]
+\[ D = 1\]
+
+Therefore the first half of the particular solution is $p_n = n(-3)^n$.
+\\
+\\
+\subsubsection*{Second non-homogenous component}
+
+Next we want the particular solution of $a_n = a_{n-1} + 8 a_{n-2} - 12 a_{n-3} + 32n^2 - 64n$
+\\
+
+% Check this ($q_n = Q(n)n^0 1^n $)
+As 1 is not a root of the characteristic polynomial, the particular solution $q_n$ will have the general form:
+\[ q_n = En^2 + Fn + G \] %   Do i need a + G??? probably not -- I think yes :'(
+\\
+Then $q_n$ will satisfy $a_n = a_{n-1} + 8 a_{n-2} - 12 a_{n-3} + 32n^2 - 64n$ so we substitute it in.
+% \[ En^2 + Fn + G = E(n-1)^2 + F(n-1) + G + 8 \Big( E(n-2)^2 + F(n-2) + G \Big) - 12 \Big( E(n-3)^2 - F(n-3) + G \Big) + 32n^2 - 64n \]
+\begin{multline*}
+  En^2 + Fn + G = E(n-1)^2 + F(n-1) + G + 8 \Big( E(n-2)^2 + F(n-2) + G \Big) \\
+   - 12 \Big( E(n-3)^2 + F(n-3) + G \Big) + 32n^2 - 64n
+\end{multline*}
+\\
+Comparing coefficients of $n^2$
+\[ E = E + 8E -12E + 32 \]
+\[ E = 8 \]
+Comparing coefficients of $n$
+\[ F = -2E + F + 8(-4)E + 8F + 12\times-6E - 12F - 64 \]
+\[ 4F = -2\times8 + 8\times-4\times8 - 12\times8\times-6 - 64 \]
+\[ F = 60 \]
+Comparing constants
+\[ G = E - F + G + 8\times 4 E - 2 \times 8 F + 8G -12 \times 9E - 12\times -3F - 12G \]
+\[ 4G = 8-60+8\times4\times8-2\times8\times60-12\times8\times9-12\times-3\times60 \]
+\[ G = 135 \]
+\\
+Therefore the second half of the particular solution is $q_n = 8n^2 + 60n + 135$
+
+\subsubsection*{Finding constants based on initial conditions}
+
+Now $a_n = b_n + p_n + q_n$ so the general form is:
+\[ a_n = A(2)^n + Bn(2)^n + C(-3)^n + n(-3)^n + 8n^2 + 60n + 135 \]
+\\
+Subbing in our initial condition $a_0 = 130$
+\[ 130 = A + C + 135 \]
+\begin{equation}
+  A + C = -5
+\end{equation}
+Initial condition $a_1 = 215$
+\[ 215 = 2A + 2B - 3C -3 + 8 + 60 + 135 \]
+\begin{equation}
+  2A + 2B - 3C = 15
+\end{equation}
+Initial condition $a_2 = 260$
+\[ 260 = 4A + 8B + 9C + 18 + 4\times8 + 120 + 135 \]
+\begin{equation}
+  4A + 8B + 9C = -45
+\end{equation}
+Equation (3) $- 4 \times$ Equation (2)
+\begin{equation}
+  -4A + 21C = -105
+\end{equation}
+Equation (4) $+ 4\times$ equation (1)
+\[ 25C = -125 \]
+\[ C = -5 \]
+Subbing C into equation (1)
+\[ A = 0 \]
+Subbing A and C into equation (2)
+\[ B = 0 \]
+Therefore we get $A=0$, $B=0$ and $C=-5$
+\\
+Therefore the solution to the recurrence relation is:
+\[ a_n = -5(-3)^n + n(-3)^n + 8n^2 + 60n + 135 \]
+
+\subsection{Part b)}
+
+Write down the closed formula for the generating function of the sequence $a_n$.
+\\
+\\
+By our dictionary from lectures:\\
+The generating function for the sequence $-5(-3)^n$ is $\frac{-5}{1+3z}$\\
+For the sequence $n(-3)^n = \frac{1}{-3}n(-3)^{n-1}$.  As $n \in \mathbb{N}$ we can substitute $n = n+1$ into this sequence
+to make it into the form $\frac{1}{-3}(n+1)(-3)^{n}$ which becomes the generating function: $\frac{-3}{(1+3z)^2}$. \\
+% $8n^2 = \binom{n+1}{2} + \binom{n}{2}$ which becomes from our dictionary $ $ $\frac{8z(z+1)}{(1-z)^3}$\\
+$8n^2$, from lectures, becomes $\frac{8z(z+1)}{(1-z)^3}$\\
+The sequence $60n$ becomes the generating function $\frac{60z}{(1-z)^2}$ \\
+And finally the sequence $135, 135, 135, ...$ becomes $\frac{135}{1-z}$ \\
+Therefore, taking a sum of the components of each sequece we get:
+
+\[ A(z) = \frac{-5}{1+3z} + \frac{-3}{(1+3z)^2} + \frac{8z(z+1)}{(1-z)^3} + \frac{60z}{(1-z)^2} + \frac{135}{1-z} \]
+
+
+\section{Question 2)}
+\subsection{Part a)}
+Two sequences are related by the identities:
+\[ b_n = (-1)^n (n+1)a_0 + (-1)^{n-1}n a_1 + ... + (-1)2 a_{n-1} + a_n \]
+Find an expression for the generating function $b_n$ in terms of the generating function for $a_n$
+\\
+\\
+By expanding the first few terms:
+% \[ b_0 = a_0 \]
+% \[ b_1 = -2a_0 + a_1 \]
+% \[ b_2 = 3a_0 - 2a_1 + a_2 \]
+% \[ b_3 = -4a_0 + 3a_1 - 2a_2 + a_3 \]
+\begin{align*}
+  b_0 &= a_0 \\
+  b_1 &= -2a_0 + a_1 \\
+  b_2 &= 3a_0 - 2a_1 + a_2 \\
+  b_3 &= -4a_0 + 3a_1 - 2a_2 + a_3 \\
+\end{align*}
+So our generating function for B:
+\[ B(z) = a_0 + (-2a_0 + a_1)z + (3a_0 - 2a_1 + a_2)z^2 + (-4a_0 + 3a_1 - 2a_2 + a_3)z^3 + ... \]
+By observation we see that this follows a multiplication of two generating functions.
+\\
+% If we look at the sequence $a_0, a_1, a_2, a_3 ...$ and $1,-2,3,-4...$
+If we define the generating function of $a_n$:
+\[ A(z) = a_0 + a_1 z + a_2 z^2 + ... \]
+We can see that the other generating function that will multiply with $A(z)$ to equal $B(z)$ is:
+\[ F(z) = 1 -2z + 3z -4z + ... \]
+By multiplying these sequences and looking at the coefficients of each $z^n$:
+\[ A(z)F(z) = a_0 + (-2a_0 + a_1)z + (3a_0 - 2a_1 + a_2)z^2 + (-4a_0 + 3a_1 - 2a_2 + a_3)z^3 + ... = B(z) \]
+\\
+The generating function $F(z)$ is of the form $(n+1)c^n$ where $c = -1$ so, from lecture content, $F(z)$ becomes:
+\[ F(z) = \frac{1}{(1+z)^2} \]
+Therefore $B(z) = A(z)\frac{1}{(1+z)^2}$
+
+\subsection{Part b)}
+Use your solution from part a) to prove the identity
+\[ \binom{\alpha}{n} = \sum_{k=0}^n (-1)^k (k+1) \binom{\alpha + 2}{n - k} \]
+For all $n \geq 0$, where $\alpha$ is a complex number.
+\\
+\\
+We want to prove for all $n \geq 0$.  We can do this by proving for the generating function of $\binom{\alpha}{n}$ is equal to the
+generating function of $\sum_{k=0}^n (-1)^k (k+1) \binom{\alpha + 2}{n - k}$.  By comparing coefficients of $z^n$ we will have proved
+that the identity is true.
+\\
+We see that the identity is in the same form as part a)
+\[ b_n = (-1)^n (n+1)a_0 + (-1)^{n-1}n a_1 + ... + (-1)2 a_{n-1} + a_n \]
+\[ b_n = \sum_{k=0}^n (-1)^k (k+1) a_{n-k} \]
+We can see the parallels between this and
+\[ \binom{\alpha}{n} = \sum_{k=0}^n (-1)^k (k+1) \binom{\alpha + 2}{n - k} \]
+Therefore the generating function for $b_n = \binom{\alpha}{n}$ will be in the form.
+\[ B(z) = A(z)\frac{1}{(1+z)^2} \]
+The generating function for $\binom{\alpha}{n}$ is $B(z) = (1+z)^\alpha$.
+\\
+So we now need a generating function for $a_{n-k} = \binom{\alpha + 2}{n - k}$. \\
+We see this is of the form $a_n = \binom{\alpha}{n}$.  So from our dictionary:
+\[ A(z) = (1+z)^{\alpha+2} \]
+We put these results into our formula from part a)
+\[ (1+z)^\alpha \equiv (1+z)^{\alpha+2}\frac{1}{(1+z)^2} \]
+Which is true \qed
+
+
+
+
+
+\end{document}

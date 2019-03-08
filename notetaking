@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Template in /usr/share/pandoc/data/templates/
+
 # File
 F="$1"
 OUT="${F%.md}.pdf"
@@ -7,7 +9,8 @@ OUT="${F%.md}.pdf"
 # Open pdf
 
 #pandoc -f markdown -t latex -o $OUT $F
-pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
+#pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
+pandoc --template notetaking.latex --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
 #xdg-open $OUT & disown
 mupdf $OUT & disown
 
@@ -25,8 +28,8 @@ do
         fileTime=$newTime
         
         # If modified regen pdf
-        pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
-        
+        #pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
+        pandoc --template notetaking.latex --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
         # Update pdf
         pkill -SIGHUP mupdf
     fi
