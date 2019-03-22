@@ -10,7 +10,7 @@ OUT="${F%.md}.pdf"
 
 #pandoc -f markdown -t latex -o $OUT $F
 #pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
-pandoc --template notetaking.latex --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
+pandoc --template notetaking.latex --indented-code-classes=python --listings -f markdown -t latex -o $OUT $F
 #xdg-open $OUT & disown
 mupdf $OUT & disown
 
@@ -29,7 +29,7 @@ do
         
         # If modified regen pdf
         #pandoc --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
-        pandoc --template notetaking.latex --indented-code-classes=python --highlight-style=tango -f markdown -t latex -o $OUT $F
+        pandoc --template notetaking.latex --indented-code-classes=python --listings -f markdown -t latex -o $OUT $F
         # Update pdf
         pkill -SIGHUP mupdf
     fi
