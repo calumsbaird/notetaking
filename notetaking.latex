@@ -47,7 +47,8 @@ $if(CJKmainfont)$
     \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
 $endif$
 \fi
-
+\usepackage{tikz}
+\usepackage{tkz-graph}
 \usepackage{listings}
 \lstset{
     basicstyle=\ttfamily,
@@ -98,9 +99,9 @@ $if(keywords)$
 $endif$
 $if(colorlinks)$
             colorlinks=true,
-            linkcolor=$if(linkcolor)$$linkcolor$$else$Maroon$endif$,
-            citecolor=$if(citecolor)$$citecolor$$else$Blue$endif$,
-            urlcolor=$if(urlcolor)$$urlcolor$$else$Blue$endif$,
+            linkcolor=black,%$if(linkcolor)$$linkcolor$$else$Maroon$endif$,
+            citecolor=blue,%$if(citecolor)$$citecolor$$else$Blue$endif$,
+            urlcolor=blue,%$if(urlcolor)$$urlcolor$$else$Blue$endif$,
 $else$
             pdfborder={0 0 0},
 $endif$
@@ -226,6 +227,10 @@ $for(header-includes)$
 $header-includes$
 $endfor$
 
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+
 $if(title)$
 \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
 $endif$
@@ -256,12 +261,71 @@ $endif$
 
 \usepackage{textcomp}
 \usepackage{xcolor}
-
+\usepackage{graphicx}
 
 \begin{document}
+
+$if(titlepage)$
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+{\center % Center everything on the page
+\textsc{\LARGE University of Sydney}\\[1.5cm] % Name of your university/college
+\textsc{\Large $titlepage$}\\[0.5cm] % Major heading such as course name
+$if(subject)$
+\textsc{\large $subject$}\\[0.5cm] % Minor heading such as course title
+$endif$
+
+\HRule \\[0.4cm]
+
+$if(title)$
+{ \huge \bfseries $title$}\\[0.4cm] % Title of your document
+$endif$
+\HRule \\[1.5cm]
+% \Large \emph{Author:}\\
+\Large
+$if(author)$
+$author$\\[0cm] % Your name
+$endif$
+%{\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+\vspace{1cm}
+
+
+%----------------------------------------------------------------------------------------
+% \epigraph{Electricity is really just organized lightning}{\textit{George Carlin}}
+
+{\small \flushleft
+
+
+\today
+$for(notes)$
+
+$notes$
+
+$endfor$
+}
+$if(signature)$
+\begin{figure}
+\flushleft
+\includegraphics[width=0.2\textwidth]{$signature$}
+\end{figure}
+$endif$
+
+\vfill
+%\vspace{6mm}
+\includegraphics[width=0.4\textwidth]{usyd.png}%\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+}
+%\vfill % Fill the rest of the page with whitespace
+\vspace{1cm}
+\end{titlepage}
+
+$else$
 $if(title)$
 {\LARGE\bfseries{\centerline{ $title$}}}
 $endif$
+$endif$
+
 $if(abstract)$
 \begin{abstract}
 $abstract$
