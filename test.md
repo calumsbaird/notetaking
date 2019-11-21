@@ -24,3 +24,9 @@ This is a sentenc
 - list
 - element
 
+## Auto screenshots
+
+
+![width=\textwidth](/home/calum/Documents/Coding/notetaking/1574301504.jpg)\ 
+
+

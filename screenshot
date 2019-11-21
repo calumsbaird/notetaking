@@ -1,0 +1,31 @@
+#!/bin/bash
+#cd $(dirname $1)
+file=$(pwd)/$(date +%s).jpg
+
+# Get suffix
+filename=$(basename -- "$1")
+extension="${filename##*.}"
+
+
+# if [[ $2 =~ ^[0-9]+$ ]]; then
+#   sleep $2
+# else
+#   sleep 4
+# fi
+
+#import -window root $file
+#feh $file 2>&1
+
+# Selection screenshot
+scrot -s $file
+
+# If the extension is markdown
+if [[ "$extension" -eq "md" ]]; then
+    printf "![width=\\\textwidth](%s)\\ \n\n\n" $file
+# if the extension is latex
+elif [[ "$2" -eq "tex" ]]; then
+    printf "\\includegraphics[width=\\\textwidth]{%s}\n" $extension
+# Otherwise just print
+else
+    echo $file
+fi
