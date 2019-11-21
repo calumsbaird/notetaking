@@ -27,6 +27,7 @@ This is a sentenc
 ## Auto screenshots
 
 
-![width=\textwidth](/home/calum/Documents/Coding/notetaking/1574301504.jpg)\ 
+
+![width=\textwidth](/home/calum/Documents/Coding/notetaking/1574302142.jpg)\ 
 
 
