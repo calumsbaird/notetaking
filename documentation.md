@@ -1,9 +1,9 @@
 
 # Installation
 
-# Quick Start
+# Usage
 
-    notetaking test.md
+    python3 notetaking.py <markdown file> [flags]
 
 # Configuration
 

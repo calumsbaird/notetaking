@@ -10,6 +10,8 @@ def fenced_code():
         print("hello world")
 ```
 
+    some pseudo code
+
 - hows this?
 - *italic*
 - **bold**
@@ -18,7 +20,7 @@ def fenced_code():
 # notetaking with python
 
 - write a file in markdown/html
-- running `notetaking notes.md` will convert it to a pdf and open a pdfviewer (mupdf?)
+- running `notetaking <file>` will convert it to a pdf and open a pdfviewer (mupdf?)
 - notetaking will continue to run in the background, every time the file is saved the pdf should update
 - if the document is closed stop notetaking and close the pdf
     - this might not be possible because different editors will
@@ -28,8 +30,7 @@ def fenced_code():
 
 # TODO
 
-- include css support
-- optional refresh
+- include easy css support
 - also call notetaking from vim
 - log errors in markdown syntax
 - config file, maybe use envionment variables?
@@ -44,6 +45,7 @@ I havent found any lightweight math rendering yet
 <https://github.com/mbarkhau/markdown-katex> has worked but
 is very slow
 
+Can't update in realtime.  Relies on linux signals when a file is saved.  Could use `.file.swp` but 
 
 ## Useful resources
 
@@ -59,5 +61,14 @@ git clone ...
 pip3 install -r requirements.txt
 ```
 
+# Packaging
+
+```bash
+python3 setup.py sdist bdist_wheel
+python3 -m twine upload dist/*
+```
+
+
 - add `let @t=':read! screenshot %^M'` to your vimrc
+
 
