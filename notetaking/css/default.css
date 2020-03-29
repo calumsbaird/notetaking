@@ -1,6 +1,11 @@
 
+@font-face {
+    font-family: CMU Serif;
+    src: url(file://fonts/cmunrm.ttf);
+}
+
 * {
-    font-family: "CMU Serif";
+    font-family: "CMU Serif", Arial, serif, sans-serif;
 }
 
 
@@ -11,7 +16,8 @@
  */
 
 .codehilite *, pre, code {
-    font-family: "CMU Typewriter Text";
+    /*font-family: "CMU Typewriter Text", monospace;*/
+    font-family: monospace;
 }
 
 

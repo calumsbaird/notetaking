@@ -18,15 +18,16 @@ Options and arguments:
 
 # Goes through inotify events and yield the ones with the correct 
 # filename
-def file_reads(i, filename_in_question):
+def file_reads(i, filenames_in_question):
 
     for event in i.event_gen(yield_nones=False):
         (_, type_names, path, filename) = event
 
-        if filename_in_question == filename:
-            #print("PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format(
-            #      path, filename, type_names))   
+        #print("PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format(
+        #      path, filename, type_names))   
+        #print(filenames_in_question)
 
+        if filename in filenames_in_question:
             for access_type in type_names:
                 yield access_type
 
@@ -51,9 +52,6 @@ def process_document(filename, pdf_filename, html_filename=None):
     from weasyprint import HTML, CSS
     HTML(string=html).write_pdf(pdf_filename,
     stylesheets=[default_css ])
-
-def eprint(*args, **kwargs):
-    print(*args, file=sys.stderr, **kwargs)
 
 
 def pdfviewer_handler(pdfviewer_subprocess):
@@ -121,11 +119,12 @@ def main():
     # TODO ideally we dont need to check the whole directory
     # but inotify is buggy for one file
     import inotify.adapters
-    i = inotify.adapters.Inotify()
-    i.add_watch('./') # TODO update for subdirectories
+    i = inotify.adapters.InotifyTree('./')
+    #i.add_watch('./') # TODO update for subdirectories
    
     # whenever the file is modified, update the pdf
-    for access_type in file_reads(i, filename):
+    default_css = f'default.css'
+    for access_type in file_reads(i, [filename,default_css]):
 
         # convert if the file has been modified
         if access_type != 'IN_MODIFY':
