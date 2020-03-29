@@ -47,9 +47,10 @@ def process_document(filename, pdf_filename, html_filename=None):
             f.write(html)
    
     # convert contents to pdf
+    default_css = f'{os.path.dirname(os.path.abspath(__file__))}/css/default.css'
     from weasyprint import HTML, CSS
     HTML(string=html).write_pdf(pdf_filename,
-    stylesheets=[CSS(string='body { font-family: serif !important }'), f'{os.path.dirname(os.path.abspath(__file__))}/css/default.css'])
+    stylesheets=[default_css ])
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)

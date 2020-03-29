@@ -21,7 +21,7 @@ setup(name='notetaking',
     license='GPLv3',
     packages=find_packages(),
     install_requires=[
-        'markdown', 'weasyprint', 'inotify', 'pygments'
+        'markdown', 'weasyprint', 'inotify', 'pygments', 'cairocffi'
     ],
     package_data={
       'notetaking': ['css/default.css'],
@@ -33,3 +33,5 @@ setup(name='notetaking',
     zip_safe=False,
     python_requires='>=3.6'
 )
+
+print("\nMake sure you install mupdf as well!\n")

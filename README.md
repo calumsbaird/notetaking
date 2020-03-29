@@ -4,7 +4,7 @@
 1. Install [mupdf](https://mupdf.com/) (`sudo apt install mupdf` on ubuntu)
 2. Install notetaking
     - from PyPI: `pip3 install notetaking`
-    - from source: `git clone https://github.com/calumsbaird/notetaking.git && pip3 install -r requirements.txt && python3 setup.py --install`
+    - from source: `git clone https://github.com/calumsbaird/notetaking.git && python3 setup.py install`
 
 
 
