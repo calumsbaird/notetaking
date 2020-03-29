@@ -36,7 +36,7 @@ def process_document(filename, pdf_filename, html_filename=None):
     # convert contents to html
     import markdown
     text = open(filename).read()
-    html = markdown.markdown(text, extensions=['extra', 'codehilite', 'toc', 'markdown_katex'])
+    html = markdown.markdown(text, extensions=['extra', 'codehilite', 'toc'])
 
     if html_filename is not None:
         with open(html_filename,'w') as f:
@@ -45,7 +45,7 @@ def process_document(filename, pdf_filename, html_filename=None):
     # convert contents to pdf
     from weasyprint import HTML, CSS
     HTML(string=html).write_pdf(pdf_filename,
-    stylesheets=[CSS(string='body { font-family: serif !important }'), 'test.css'])
+    stylesheets=[CSS(string='body { font-family: serif !important }'), f'{os.path.dirname(os.path.abspath(__file__))}/css/default.css'])
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -83,7 +83,7 @@ def main():
         sys.stdout = file_err
 
         # Daemonise
-        import daemon
+        from . import daemon
         daemon.createDaemon()
 
     # filename
@@ -92,7 +92,7 @@ def main():
 
     # conjuer a filename for the pdf and for a html doc
     file_and_path, extension = os.path.splitext(filename)
-    assert extension in ['md','markdown', 'html'], "Unknown extension"
+    assert extension in ['.md','.markdown', '.html'], f"Unknown extension {extension}"
     pdf_filename = file_and_path + '.pdf'
     if '--html' in sys.argv and extension != 'html':
         html_filename = file_and_path + '.html'

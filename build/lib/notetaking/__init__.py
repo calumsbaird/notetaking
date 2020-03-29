@@ -1,1 +1,1 @@
-from notetaking import main
+from .notetaking import main

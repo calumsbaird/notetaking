@@ -1,4 +1,14 @@
 
+# Install
+
+1. Install [mupdf](https://mupdf.com/) (`sudo apt install mupdf` on ubuntu)
+2. Install notetaking
+    - from PyPI: `pip3 install notetaking`
+    - from source: `git clone https://github.com/calumsbaird/notetaking.git && pip3 install -r requirements.txt && python3 setup.py --install`
+
+
+
+
 # Test
 
 - hello world
@@ -53,13 +63,6 @@ Can't update in realtime.  Relies on linux signals when a file is saved.  Could 
     - might even be able to track changes to the vim .swp file too
 - [python-markdown]: https://python-markdown.github.io/ for converted markdown and html with nested markdown into markdown
 
-
-# Install
-
-```bash
-git clone ...
-pip3 install -r requirements.txt
-```
 
 # Packaging
 

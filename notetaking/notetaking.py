@@ -33,6 +33,10 @@ def file_reads(i, filename_in_question):
 
 def process_document(filename, pdf_filename, html_filename=None):
 
+    # check file exists
+    if not os.path.isfile(filename):
+        open(filename,'a').close()
+
     # convert contents to html
     import markdown
     text = open(filename).read()
