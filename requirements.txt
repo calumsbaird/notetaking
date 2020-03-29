@@ -1,5 +1,0 @@
-wheel
-markdown
-weasyprint
-inotify
-pygments
