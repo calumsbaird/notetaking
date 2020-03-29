@@ -1,0 +1,6 @@
+wheel
+markdown
+weasyprint
+inotify
+pygments
+markdown-katex

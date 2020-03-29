@@ -1,4 +1,20 @@
 
+# Test
+
+- hello world
+
+```python3
+
+def fenced_code():
+    for i in range(10):
+        print("hello world")
+```
+
+- hows this?
+- *italic*
+- **bold**
+- ***both***
+
 # notetaking with python
 
 - write a file in markdown/html
@@ -12,12 +28,21 @@
 
 # TODO
 
-- run in background somehow?
-    - have system notifications if there is a syntax error
-    - also call notetaking from vim
 - include css support
-- close background process when pdfviewer is closed
+- optional refresh
+- also call notetaking from vim
+- log errors in markdown syntax
 - config file, maybe use envionment variables?
+- better logging messages
+
+# Limitations
+
+There is currently no way to track errors (syntax or otherwise)
+in the markdown, html or css you write.
+
+I havent found any lightweight math rendering yet
+<https://github.com/mbarkhau/markdown-katex> has worked but
+is very slow
 
 
 ## Useful resources
@@ -29,7 +54,10 @@
 
 # Install
 
-`./install.sh`
+```bash
+git clone ...
+pip3 install -r requirements.txt
+```
 
 - add `let @t=':read! screenshot %^M'` to your vimrc
 

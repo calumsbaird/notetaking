@@ -30,17 +30,21 @@ def file_reads(i, filename_in_question):
                 yield access_type
 
 
-def process_document(filename, pdf_filename):
+def process_document(filename, pdf_filename, html_filename=None):
 
     # convert contents to html
     import markdown
     text = open(filename).read()
-    html = markdown.markdown(text, extensions=['md_in_html'])
+    html = markdown.markdown(text, extensions=['extra', 'codehilite', 'toc', 'markdown_katex'])
+
+    if html_filename is not None:
+        with open(html_filename,'w') as f:
+            f.write(html)
    
     # convert contents to pdf
     from weasyprint import HTML, CSS
     HTML(string=html).write_pdf(pdf_filename,
-    stylesheets=[CSS(string='body { font-family: serif !important }')])
+    stylesheets=[CSS(string='body { font-family: serif !important }'), 'test.css'])
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -84,8 +88,9 @@ if __name__ == '__main__':
 
     # conjuer a filename for the pdf
     pdf_filename = 'test.pdf' #TODO
+    html_filename = 'test.html'
 
-    process_document(filename, pdf_filename)
+    process_document(filename, pdf_filename, html_filename)
     
     
     # Open pdf
