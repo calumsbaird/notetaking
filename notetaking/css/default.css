@@ -1,12 +1,26 @@
 
 @font-face {
-    font-family: CMU Serif;
-    src: url(file://fonts/cmunrm.ttf);
+    font-family: cmuserif;
+    src: url(font:cmunrm.ttf);
 }
 
 * {
-    font-family: "CMU Serif", Arial, serif, sans-serif;
+    /*font-family: Arial;*/
+    font-family: cmuserif;
 }
+
+p {
+    font-size: small;
+}
+
+img {
+    width: 100%;
+}
+
+@page {
+    margin: 5%;
+}
+
 
 
 
@@ -15,13 +29,25 @@
  * Courtesy of GitHub.com
  */
 
+.codehilite * {
+    font-size: 7pt;
+}
+code {
+    font-size: x-small;
+}
 .codehilite *, pre, code {
     /*font-family: "CMU Typewriter Text", monospace;*/
     font-family: monospace;
 }
 
+/* Ensure long lines wrap properly */
+.codehilite span {
+    white-space: normal;
+    word-wrap: break-word;
+}
 
-.codehilite pre, pre, .codehilite .hll { background-color: #f8f8f8; border: 1px solid #ccc; padding: 6px 10px; border-radius: 3px; }
+/*.codehilite pre, pre, .codehilite .hll { background-color: #f8f8f8; border: 1px solid #ccc; padding: 6px 10px; border-radius: 3px; }*/
+.codehilite pre, pre, .codehilite .hll { background-color: #f8f8f8; border: 1px solid #ccc; padding: 3px 3px; border-radius: 3px; }
 .codehilite .c { color: #999988; font-style: italic; }
 /*.codehilite .err { color: #a61717; background-color: #e3d2d2; } ignore error class */
 .codehilite .k { font-weight: bold; }

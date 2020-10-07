@@ -6,13 +6,20 @@
 #from __future__ import print_function
 import os, sys
 
-help_prompt = '''
+# Current version
+import pkg_resources  # part of setuptools
+package_information = pkg_resources.require("notetaking")[0]
+VERSION = package_information.version
+
+help_prompt = f'''
+notetaking {VERSION}
 usage: python3 notetaking.py <filename> [flags]
 
 Options and arguments:
 -h,--help       : print this help menu
 -d              : display debugging information TODO
 -b,--background : run in background
+--version       : print version number
 --html          : output a .html document for debugging
 '''
 
@@ -31,6 +38,16 @@ def file_reads(i, filenames_in_question):
             for access_type in type_names:
                 yield access_type
 
+import weasyprint
+def url_fetcher(url):
+    if url.startswith('file:'):
+        font_file = url.split('font:')[1]  
+        font_path = f'file://{os.path.dirname(os.path.abspath(__file__))}/fonts/{font_file}'
+        print('fetching font from:', font_path)
+        return weasyprint.default_url_fetcher(font_path)
+    print(url)
+    return weasyprint.default_url_fetcher(url)
+
 
 def process_document(filename, pdf_filename, html_filename=None):
 
@@ -41,7 +58,12 @@ def process_document(filename, pdf_filename, html_filename=None):
     # convert contents to html
     import markdown
     text = open(filename).read()
-    html = markdown.markdown(text, extensions=['extra', 'codehilite', 'toc'])
+    html = markdown.markdown(text, 
+        extensions=['extra', 'codehilite', 'toc'],
+        extension_config= {
+            'codehilite': {'guess_lang': True}
+        }
+    )
 
     if html_filename is not None:
         with open(html_filename,'w') as f:
@@ -50,8 +72,11 @@ def process_document(filename, pdf_filename, html_filename=None):
     # convert contents to pdf
     default_css = f'{os.path.dirname(os.path.abspath(__file__))}/css/default.css'
     from weasyprint import HTML, CSS
-    HTML(string=html).write_pdf(pdf_filename,
-    stylesheets=[default_css ])
+    from weasyprint.fonts import FontConfiguration
+    font_config = FontConfiguration()
+    css = CSS(default_css, font_config=font_config, url_fetcher=url_fetcher)
+    HTML(string=html,base_url=os.getcwd()).write_pdf(pdf_filename,
+    stylesheets=[css], font_config=font_config)
 
 
 def pdfviewer_handler(pdfviewer_subprocess):
@@ -66,9 +91,15 @@ def pdfviewer_handler(pdfviewer_subprocess):
 def main():
 
     # help prompt
+    # TODO separate cmd parsing function
     if len(sys.argv) < 2 or '-h' in sys.argv or '--help' in sys.argv:
         print(help_prompt)
         sys.exit(1)
+
+    # version prompt
+    if '--version' in sys.argv:
+        print(f'notetaking {VERSION}')
+        sys.exit(0)
 
     # run in background as daemon if '-b' flag
     if any(x in sys.argv for x in ['-b', '--background']):
@@ -88,6 +119,12 @@ def main():
         # Daemonise
         from . import daemon
         daemon.createDaemon()
+
+    # TODO make logging better
+    import logging
+    logger = logging.getLogger('weasyprint')
+    logger.addHandler(logging.StreamHandler(sys.stdout))
+    logger.setLevel(logging.DEBUG)
 
     # filename
     assert len(sys.argv) >= 1

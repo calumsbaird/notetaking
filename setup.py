@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='notetaking',
-    version='0.0.1',
+    version='0.1.4',
     description='Markdown -> HTML -> pdf on the fly',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -24,7 +24,7 @@ setup(name='notetaking',
         'markdown', 'weasyprint', 'inotify', 'pygments', 'cairocffi'
     ],
     package_data={
-      'notetaking': ['css/default.css'],
+      'notetaking': ['css/default.css', 'fonts/*'],
     },
     entry_points = {
         'console_scripts': ['notetaking=notetaking:main'],

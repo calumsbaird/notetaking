@@ -1,6 +1,8 @@
 
 # Quickstart
 
+## Subheading
+
 1. Install [mupdf](https://mupdf.com/) (`sudo apt install mupdf` on ubuntu)
 2. Install notetaking
     - from PyPI: `pip3 install notetaking`
@@ -9,9 +11,6 @@
 4. Make the pdf `notetaking test.md -b`
 5. Edit `test.md` in your favourite text editor and watch the
     pdf update when you save it
-
-
-
 
 # Test
 

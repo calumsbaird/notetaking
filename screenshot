@@ -21,7 +21,7 @@ scrot -s $file
 
 # If the extension is markdown
 if [[ "$extension" -eq "md" ]]; then
-    printf "![width=\\\textwidth](%s)\\ \n\n\n" $file
+    printf "![](%s)\n\n" $file
 # if the extension is latex
 elif [[ "$2" -eq "tex" ]]; then
     printf "\\includegraphics[width=\\\textwidth]{%s}\n" $extension
