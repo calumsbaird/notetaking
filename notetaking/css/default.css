@@ -1,13 +1,21 @@
 
+/*
 @font-face {
     font-family: cmuserif;
     src: url(font:cmunrm.ttf);
 }
+*/
 
-* {
-    /*font-family: Arial;*/
+body {
     font-family: cmuserif;
 }
+
+/*
+h1 {
+    font-family: Arial;
+}
+*/
+
 
 p {
     font-size: small;
@@ -20,6 +28,39 @@ img {
 @page {
     margin: 5%;
 }
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse; 
+    table-layout: auto;
+}
+table th {
+    /*font-weight: bold;*/
+}
+table, th, td {
+    border: 1px solid black;
+    z-index: 100;
+    /*margin: 10px;*/
+    /*padding-right: 10px;*/
+}
+table thead {
+    /*background-color: rgb(219,229,241);*/
+}
+table td
+{
+    text-align:left;
+}
+table.data td + td
+{
+    text-align:right;
+}
+table th {
+    text-align:center;
+}
+
+
+
 
 
 

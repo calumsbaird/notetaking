@@ -5,6 +5,12 @@
 
     python3 notetaking.py <markdown file> [flags]
 
+# Math
+
+![](notetaking/output.svg)
+
+Hello <img style="display:inline-block;height:15pt;" src=notetaking/output.svg> world
+
 # Configuration
 
 # Syntax Highlighting

@@ -5,11 +5,15 @@
 
 #from __future__ import print_function
 import os, sys
+import requests, logging, base64
 
 # Current version
 import pkg_resources  # part of setuptools
 package_information = pkg_resources.require("notetaking")[0]
 VERSION = package_information.version
+
+#import markdown_katex
+#markdown_katex.html.HTML_TEMPLATE = markdown_katex.html.HTML_TEMPLATE.replace(markdown_katex.html._STYLESHEET_LINK, f'{os.path.dirname(os.path.abspath(__file__))}/css/katex.css')
 
 help_prompt = f'''
 notetaking {VERSION}
@@ -40,12 +44,40 @@ def file_reads(i, filenames_in_question):
 
 import weasyprint
 def url_fetcher(url):
-    if url.startswith('file:'):
+
+    if url == 'https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css':
+        path = f'file://{os.path.dirname(os.path.abspath(__file__))}/css/katex.css'
+        return weasyprint.default_url_fetcher(path)
+    elif url.startswith('font:'):
         font_file = url.split('font:')[1]  
         font_path = f'file://{os.path.dirname(os.path.abspath(__file__))}/fonts/{font_file}'
         print('fetching font from:', font_path)
         return weasyprint.default_url_fetcher(font_path)
-    print(url)
+
+    # If its a web font, download it and cache
+    elif url.startswith('http'):
+
+        # Get the suffix of the file
+        try:
+            suffix = '.' + url.split('.')[-1]
+        except:
+            suffix = ''
+
+        # Encode rest of path in base64
+        url_base64 = str(base64.b64encode(url.encode("utf-8")),"utf-8")
+
+        # Cache in /tmp
+        #font_filename = f'{os.path.dirname(os.path.abspath(__file__))}/fonts/{url_base64}.css'
+        file_path = f'/tmp/{url_base64}{suffix}'
+        file_url = f'file://{file_path}'
+        if not os.path.exists(file_path):
+            print('downloading and caching url')
+            file_contents = requests.get(url).content
+            open(file_path, 'wb').write(file_contents) 
+        else:
+            print('using cached url')
+        return weasyprint.default_url_fetcher(file_url)
+
     return weasyprint.default_url_fetcher(url)
 
 
@@ -58,12 +90,17 @@ def process_document(filename, pdf_filename, html_filename=None):
     # convert contents to html
     import markdown
     text = open(filename).read()
-    html = markdown.markdown(text, 
-        extensions=['extra', 'codehilite', 'toc'],
+    md = markdown.Markdown( 
+        extensions=['extra', 'codehilite', 'toc', 'markdown_katex'],
         extension_config= {
-            'codehilite': {'guess_lang': True}
+            'codehilite': {'guess_lang': True},
+            'markdown_katex': {
+                'no_inline_svg': True,      # should be true for WeasyPrint
+                'insert_fonts_css': True,
+            },
         }
     )
+    html = md.convert(text)
 
     if html_filename is not None:
         with open(html_filename,'w') as f:
@@ -75,8 +112,9 @@ def process_document(filename, pdf_filename, html_filename=None):
     from weasyprint.fonts import FontConfiguration
     font_config = FontConfiguration()
     css = CSS(default_css, font_config=font_config, url_fetcher=url_fetcher)
-    HTML(string=html,base_url=os.getcwd()).write_pdf(pdf_filename,
+    HTML(string=html,base_url=os.getcwd(),url_fetcher=url_fetcher).write_pdf(pdf_filename,
     stylesheets=[css], font_config=font_config)
+
 
 
 def pdfviewer_handler(pdfviewer_subprocess):
@@ -176,4 +214,5 @@ def main():
 
 
 if __name__ == '__main__':
+    #u = url_fetcher('https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css') 
     main()
