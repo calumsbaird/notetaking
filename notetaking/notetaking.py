@@ -98,9 +98,16 @@ def process_document(filename, pdf_filename, html_filename=None):
                 'no_inline_svg': True,      # should be true for WeasyPrint
                 'insert_fonts_css': True,
             },
+            #'toc': {
+            #    'toc_depth': 1,
+            #}
         }
     )
-    html = md.convert(text)
+    try:
+        html = md.convert(text)
+    except:
+        logging.error('Conversion error')
+        return
 
     if html_filename is not None:
         with open(html_filename,'w') as f:

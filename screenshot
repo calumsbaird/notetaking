@@ -1,6 +1,6 @@
 #!/bin/bash
 #cd $(dirname $1)
-file=$(pwd)/$(date +%s).jpg
+file=$(pwd)/$(date +%s).png
 
 # Get suffix
 filename=$(basename -- "$1")
